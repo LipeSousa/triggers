@@ -1,9 +1,9 @@
 CREATE SCHEMA IF NOT EXISTS `BancoNFT` DEFAULT CHARACTER SET utf8;
 USE `BancoNFT`;
-DROP DATABASE banconft;
+-- DROP DATABASE banconft;
 
 CREATE TABLE `BancoNFT`.`Usuario` (
-    id_Usuario INT NOT NULL PRIMARY KEY,
+    id_Usuario INT NOT NULL PRIMARY KEY auto_increment,
     nome VARCHAR(45) NOT NULL,
     email VARCHAR(45) NOT NULL,
     senha VARCHAR(45) NOT NULL,
@@ -56,6 +56,8 @@ VALUES
 (4, 'Pedro Costa', 'pedro@mail.com', 'senha456', 985666777, '1980-12-10', 'Masculino', '55566677707'),
 (5, 'Carla Souza', 'carla@mail.com', '123456', 988999000, '1998-08-05', 'Feminino', '88899900002');
 
+-- SELECT * FROM Usuario;
+
 -- Inserções na tabela PRODUTO
 INSERT INTO PRODUTO (id_Produto, valor, categoria, estoque, marca, descricao)
 VALUES 
@@ -64,6 +66,8 @@ VALUES
 (3, 1200, 'Bored Ape 2', 8, 'SkullX', 'Bored Ape 2'),
 (4, 2000, 'Bored Ape 3', 12, 'Van Gogh', 'Bored Ape 3'),
 (5, 1800, 'Bored Ape 4', 20, 'Neymar JR', 'Bored Ape 4');
+
+-- SELECT * FROM PRODUTO;
 
 -- Inserções na tabela Pedido
 INSERT INTO Pedido (idPEDIDO, data, quantidade, valor, id_Produto, id_Usuario)
@@ -74,6 +78,8 @@ VALUES
 (4, '2024-05-04 14:20:00', '3', 6000, 4, 4),
 (5, '2024-05-05 13:00:00', '2', 3600, 5, 5);
 
+-- SELECT * FROM Pedido;
+
 -- Inserções na tabela FormaPGMT
 INSERT INTO FormaPGMT (idPedido, pix, debito, credito)
 VALUES 
@@ -82,6 +88,8 @@ VALUES
 (3, 'Não', 'Não', 'Sim'),
 (4, 'Não', 'Sim', 'Não'),
 (5, 'Sim', 'Não', 'Não');
+
+-- SELECT * FROM FormaPGMT;
 
 DELIMITER $$
 CREATE TRIGGER before_pedido_insert
@@ -112,8 +120,15 @@ $$
 DELIMITER ;
 
 -- Inserir um novo pedido que desencadeará o trigger before_pedido_insert
+
+SELECT * FROM Produto
+WHERE id_Produto = 1;
+
 INSERT INTO Pedido (idPEDIDO, data, quantidade, valor, id_Produto, id_Usuario)
-VALUES (6, '2024-05-06 12:00:00', 10, 15000, 1, 1);
+VALUES (6, '2024-05-06 12:00:00', 20, 15000, 1, 1);
+
+SELECT * FROM Pedido
+WHERE idPEDIDO = 6;
 
 -- Excluir um pedido que desencadeará o trigger after_pedido_delete
 DELETE FROM Pedido WHERE idPEDIDO = 6;
@@ -146,8 +161,14 @@ END;
 $$
 DELIMITER ;
 
-CALL inserir_usuario('Felipinho', 'felipe@email.com', '123', 123456789, '1990-01-01', 'Outro', '12345678901');
+-- SELECT * FROM Usuario;
+
+CALL inserir_usuario('Felipinho', 'felipe@email.com', '123', 123456789, '1990-01-01', 'Masculino', '12345678901');
+
+-- SELECT * FROM Produto WHERE id_Produto = 1;
+
 CALL atualizar_estoque(1, 20);
+
 
 -- Função para calcular o valor total de um pedido
 DELIMITER $$
@@ -188,3 +209,9 @@ DELIMITER ;
 SELECT calcular_valor_total(3, 1000); -- Isso retorna o valor total para 3 produtos que custam 1000 cada.
 
 SELECT verificar_maioridade('2010-05-15'); -- Isso retorna TRUE ou FALSE dependendo da data de nascimento fornecida.
+
+
+
+
+
+
